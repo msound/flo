@@ -121,11 +121,11 @@ class IntegrationCommand extends Command {
         $output->writeln($process->getOutput());
         if (!$input->getOption('no-label')) {
           $this->addGithubLabel($pr['number'], self::GITHUB_LABEL_MERGE_FAILED);
-          $this->addGithubComment($pr['number'], implode('\n\n', array(
+          $this->addGithubComment($pr['number'], implode("\n\n", array(
             'I was unable to merge this Pull Request with the other open Pull Requests.',
             'Perhaps the following log will assist your debugging…',
-            '```sh',
-            $process->getErrorOutput(),
+            '```',
+            $process->getOutput(),
             '```',
           )));
         }

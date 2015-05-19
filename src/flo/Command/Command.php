@@ -44,20 +44,21 @@ class Command extends \Symfony\Component\Console\Command\Command {
    * @return Github\Client
    */
   public function getGithub($cache = TRUE, $api = NULL) {
-    if (null === $this->github) {
-      if ($cache) {
+
+    if ($cache) {
+      if (null === $this->github) {
         $this->github = new Github\Client(
           new Github\HttpClient\CachedHttpClient(array('cache_dir' => '/tmp/github-api-cache'))
         );
       }
-      else {
-        $this->github = new Github\Client();
-      }
-      $this->github->authenticate($this->getConfigParameter('github_oauth_token'), NULL, Github\Client::AUTH_URL_TOKEN);
+    }
+    else {
+      $this->github = new Github\Client();
+    }
+    $this->github->authenticate($this->getConfigParameter('github_oauth_token'), NULL, Github\Client::AUTH_URL_TOKEN);
 
-      if ($api !== NULL) {
-        return $this->github->api($api);
-      }
+    if ($api !== NULL) {
+      return $this->github->api($api);
     }
 
     return $this->github;
